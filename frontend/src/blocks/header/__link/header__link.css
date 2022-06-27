@@ -1,0 +1,28 @@
+.header__link {
+  text-decoration: none;
+  transition: 0.3s;
+  color: #FFF;
+  font-size: 18px;
+  line-height: 1.22;
+  cursor: pointer;
+}
+
+.header__link:hover {
+  opacity: 0.6;
+}
+
+
+@media screen and (max-width: 767px) {
+  .header__link {
+    font-size: 14px;
+    line-height: 1.21;
+    margin-bottom: 40px;
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header__link_isloggedIn {
+    margin-right: 0;
+  }
+}
