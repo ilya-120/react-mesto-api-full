@@ -92,6 +92,16 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false)
+        api
+          .getAppInfo()
+          .then(([userInfoRes, cardListRes]) => {
+            cardListRes.reverse()
+            setCurrentUser(userInfoRes)
+            setCards(cardListRes)
+          })
+          .catch((err) => {
+            console.log(`Ошибка загрузки данных: ${err}`)
+          });
       })
   }
 
