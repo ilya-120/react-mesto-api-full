@@ -62,7 +62,7 @@ class Api {
   }
 
   updateCardLike(id, liked) {
-    return fetch(`${this._baseUrl}cards/likes/${id}`, {
+    return fetch(`${this._baseUrl}cards/${id}/likes`, {
       method: liked ? 'PUT' : 'DELETE',
       headers: this._headers,
     })
@@ -71,10 +71,10 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-38/',
+  baseUrl: 'https://api.ilya120.nomoreparties.sbs/',
   headers: {
-    authorization: 'fa48ff2e-d2a9-4324-9dba-bc9235b793c8',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
   }
 });
 

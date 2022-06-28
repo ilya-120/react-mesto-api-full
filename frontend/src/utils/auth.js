@@ -1,4 +1,8 @@
 const BASE_URL = 'https://api.ilya120.nomoreparties.sbs';
+const headers = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+};
 
 function checkResponse(res) {
   if (res.ok) {
@@ -6,12 +10,12 @@ function checkResponse(res) {
   } else {
     return Promise.reject(res.status)
   }
-}
+};
 
 export const signup = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
-    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ email, password })
   })
     .then(checkResponse);
@@ -20,7 +24,8 @@ export const signup = (email, password) => {
 export const signin = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    credentials: 'include',
+    headers,
     body: JSON.stringify({ email, password })
   })
     .then(checkResponse)
@@ -35,8 +40,10 @@ export const signin = (email, password) => {
 export const checkToken = token => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
-      'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`
+      ...headers,
+      'Authorization': `Bearer ${token}`
     }
   })
     .then(checkResponse);
