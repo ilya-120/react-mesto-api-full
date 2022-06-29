@@ -53,8 +53,36 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setDataInfo();
+  }, [])
+
+  function onLogin(email, password) {
+    setIsLoading(true);
+    auth
+      .signin(email, password)
+      .then(res => {
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+          setLoggedIn(true);
+          setEmail(email);
+          setDataInfo();
+        }
+      })
+      .catch((err) => {
+        setIsRegistrationSuccessful(false);
+        handleInfoTooltip();
+        console.log(`Ошибка входа: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        navigate('/');
+      })
+  }
+
+  function setDataInfo() {
+    const jwt = localStorage.getItem('jwt');
     api
-      .getAppInfo()
+      .getAppInfo(jwt)
       .then(([userInfoRes, cardListRes]) => {
         cardListRes.reverse()
         setCurrentUser(userInfoRes)
@@ -71,28 +99,6 @@ function App() {
     document.addEventListener('keydown', handleEscClose);
     return () =>
       document.removeEventListener('keydown', handleEscClose);
-  }, [])
-
-  function onLogin(email, password) {
-    setIsLoading(true);
-    auth
-      .signin(email, password)
-      .then(res => {
-        if (res.token) {
-          localStorage.setItem('jwt', res.token);
-          setLoggedIn(true);
-          setEmail(email);
-          navigate('/');
-        }
-      })
-      .catch((err) => {
-        setIsRegistrationSuccessful(false);
-        handleInfoTooltip();
-        console.log(`Ошибка входа: ${err}`);
-      })
-      .finally(() => {
-          setIsLoading(false)
-      })
   }
 
   function onRegister(email, password) {
@@ -253,8 +259,8 @@ function App() {
                     onClicOpen={handleMenuOpen}
                   />
                   <ProtectedRoute
-                    loggedIn={loggedIn}
                     component={Main}
+                    loggedIn={loggedIn}
                     onEditAvatar={handleEditAvatarClick}
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}

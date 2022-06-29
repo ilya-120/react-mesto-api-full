@@ -12,12 +12,15 @@ class Api {
     }
   }
 
-  getAppInfo() {
-    return Promise.all([this.getUserInfo(), this.getInitialCards()])
+  getAppInfo(jwt) {
+    return Promise.all([this.getUserInfo(jwt), this.getInitialCards(jwt)])
   }
 
-  getUserInfo() {
-    return fetch(`${this._baseUrl}users/me`, { headers: this._headers })
+  getUserInfo(jwt) {
+    return fetch(`${this._baseUrl}users/me`, { headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`,
+    } })
       .then(this._checkResponse);
   }
 
@@ -39,8 +42,11 @@ class Api {
       .then(this._checkResponse);
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUrl}cards`, { headers: this._headers })
+  getInitialCards(jwt) {
+    return fetch(`${this._baseUrl}cards`, { headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`,
+    } })
       .then(this._checkResponse);
   }
 
