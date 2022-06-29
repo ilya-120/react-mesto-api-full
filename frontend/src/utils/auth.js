@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.ilya120.nomoreparties.sbs';
+const BASE_URL = 'https://api.nexus.moscow';
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
